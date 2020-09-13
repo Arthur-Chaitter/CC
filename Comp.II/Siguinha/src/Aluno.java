@@ -2,19 +2,20 @@ public class Aluno{
     // atributo! (regra geral: todos private!)
     private String nome;
     private final long dre;
+    private final int anoDeMatricula;
     private int creditosAcumulados;     //somatorio dos creditos
 
     private float cra;                  //cra = somatorio_d [media * creditos / creditos acumulados]
 
     private int quantDisciplinasCursadas;
-    private String[] disciplinasCursadas;
+    private ItemDeHistorico[] disciplinasCursadas;
 
     // construtor !
-    public Aluno(long dre, String nome){
+    public Aluno(long dre, int anoDeMatricula, String nome){
         this.dre = dre;
         this.nome = nome;
-
-        this.disciplinasCursadas = new String[16];
+        this.anoDeMatricula = anoDeMatricula;
+        this.disciplinasCursadas = new ItemDeHistorico[16];
     }
 
     // metodos
@@ -36,7 +37,7 @@ public class Aluno{
         return this.cra;
     }
 
-    public String[] getDisciplinasCursadas() {
+    public ItemDeHistorico[] getDisciplinasCursadas() {
         return disciplinasCursadas;
     }
 
@@ -61,6 +62,10 @@ public class Aluno{
         //        this.cra = cra;
         //    }
 
+    public int getAnoDeMatricula(){
+        return anoDeMatricula;
+    }
+
     // SETTERS
 
     public void setNome(String nome) {
@@ -71,23 +76,43 @@ public class Aluno{
     }
 
     //Metodos normais
-    void imprimirHistorico() {
-        //ToDo: Implement Me!
+    String retornarHistoricoAsString(){
+        String resultado = "";
+        for (int i = 0; i < this.quantDisciplinasCursadas; i++) {
+            ItemDeHistorico item = this.disciplinasCursadas[i];
+            //MAB001 - media 6.5 - 4 creditos - 2020.1
+            resultado = resultado + item.getDisciplina().getCodigo() +
+                        " - media " + item.getMediaFinal() +
+                        " - " + item.getDisciplina().getCreditos() + " creditos" +
+                        " - " + item.getAno() + "." + item.getSemestre();
+            if(i < this.quantDisciplinasCursadas - 1){
+                resultado = resultado + "\n";
+            }
+        }
+        return resultado;
     }
 
-    public void registrarConclusaoDisciplina(String codigoDisciplina, int quantCreditos, float mediaFinal){
-        this.disciplinasCursadas[this.quantDisciplinasCursadas] = codigoDisciplina;
+    public void registrarConclusaoDisciplina(Disciplina disciplina,
+                                             float mediaFinal,
+                                             int anoConclusao, //ToDo default para ano corrente
+                                             int semestreConclusao) {
+
+        ItemDeHistorico novoItem  = new ItemDeHistorico(disciplina, this, anoConclusao, semestreConclusao,mediaFinal);
+        this.disciplinasCursadas[this.quantDisciplinasCursadas] = novoItem;
         this.quantDisciplinasCursadas++;
 
         //recupero o numerador corrente(antes da nova disciplina)
         float numeradorCorrente = this.cra * this.creditosAcumulados;
 
-        this.creditosAcumulados += quantCreditos;
+        int creditos = disciplina.getCreditos();
+        this.creditosAcumulados += creditos;
 
         //atualizar o CRA do aluno
-        float novaParcela = quantCreditos * mediaFinal;
+        float novaParcela = creditos * mediaFinal;
         this.cra =(numeradorCorrente + novaParcela) / this.creditosAcumulados;
     }
+
+
 
     @Override
     public String toString(){
