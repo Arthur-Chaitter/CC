@@ -2,7 +2,7 @@ public class Album {
 
     private int totalFigurinhas;
 
-    private int quantFigurinhasPorPacotinho;
+    private int quantFigurinhasPorPacotinho = 3;
 
     private Figurinha[] figurinhasColadas;
 
@@ -23,7 +23,7 @@ public class Album {
     public Album(int totalFigurinhas, int quantFigurinhasPorPacotinho) {
         this.totalFigurinhas = totalFigurinhas;
         this.quantFigurinhasPorPacotinho = quantFigurinhasPorPacotinho;
-        figurinhasColadas = new Figurinha[200+1];
+        figurinhasColadas = new Figurinha[totalFigurinhas+1];
         figurinhasRepetidas = new Figurinha[300+1];
 
     }
@@ -45,9 +45,9 @@ public class Album {
             quantFigurinhasFaltando = 200 - quantFigurinhasColadas;
         }
 
-        // equivalentemente, usar um "for each" ToDo: IMPLEMENT ME!
-        //for (Figurinha figurinha : pacotinho) {
-        //}
+        for (int x: ) {
+
+        }
     }
 
     public int getTotalPacotinhosRecebidos() {
@@ -63,7 +63,7 @@ public class Album {
      */
     public void encomendarFigurinhasRestantes() {
         // ToDo IMPLEMENT ME!!!    (será preciso validar a regra dos 10%)
-        if(quantFigurinhasColadas != 200*0.9){
+        if(quantFigurinhasColadas != 200*PREENCHIMENTO_MINIMO_PARA_PERMITIR_AUTO_COMPLETAR){
             return;
         }else{
             for (int i = 1; i < 200; i++) {
