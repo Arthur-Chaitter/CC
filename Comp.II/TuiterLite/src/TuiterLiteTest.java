@@ -177,27 +177,21 @@ public class TuiterLiteTest {
         assertEquals("#5", tuiterLite.getHashtagMaisComum());
     }
 
-    /////
-    /////   ATENÇÃO: Este teste deve rodar rapidamente (poucos segundos)
-    /////
+
     @Test
     public void testePerformanceTuites() {
 
-        // TESTE DIMINUIDO POR FALTA DE PERFORMACE
-
         // vamos cadastrar um número grande de usuários
-        for (int i = 1; i <= 300_00; i++) {
+        for (int i = 1; i <= 300_000; i++) {
             String nome = String.format("Usuário %d", i);
             String email = String.format("usuario%d@email.com", i);
             tuiterLite.cadastrarUsuario(nome, email);
-           System.out.println(i);
         }
 
          //agora vamos tentar fazer um número grande de tuítes com usuário desconhecido
         Usuario usuarioNaoCadastrado = new Usuario("Usuário Desconhedido", "unknown@void.com");
-        for (int i = 1; i <= 300_00; i++) {
+        for (int i = 1; i <= 300_000; i++) {
            assertNull(tuiterLite.tuitarAlgo(usuarioNaoCadastrado, "Teste"));
-            System.out.println(i);
         }
     }
 }

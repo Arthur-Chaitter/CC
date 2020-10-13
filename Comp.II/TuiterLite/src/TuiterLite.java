@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  *  Esta classe implementa um sistema de mensagens curtas estilo Twitter.
@@ -14,14 +17,16 @@ public class TuiterLite<T> {
     public static final int TAMANHO_MAXIMO_TUITES = 120;
     public static final String EMAIL_NULO = "unknown@void.com";
 
-    private ArrayList<Usuario> usuarios;
+    //private ArrayList<Usuario> usuarios;
+    private HashMap<String, Usuario> usuarios;
 
     public static ArrayList<String> hashtags;
 
     //Construtor
 
     public TuiterLite(){
-        this.usuarios = new ArrayList<>();
+        this.usuarios = new HashMap<>();
+        //this.usuarios = new ArrayList<>();
     }
 
     /**
@@ -35,19 +40,22 @@ public class TuiterLite<T> {
         //teste de array nulo ou vazio
         if(usuarios.size() == 0){
             Usuario novoUsuario = new Usuario(nome, email);
-            usuarios.add(novoUsuario);
+            usuarios.put(email, novoUsuario);
             return novoUsuario;
         }
 
         //teste se existe um email cadastrado
-        for (int i = 0; i < usuarios.size(); i++) {
-            if (email == usuarios.get(i).getEmail()){
-                return null;
-            }
+        //for (int i = 0; i < usuarios.size(); i++) {
+        //    if (email == usuarios.get(i).getEmail()){
+        //        return null;
+        //    }
+        //}
+        if(usuarios.containsKey(email)){
+            return null;
         }
 
         Usuario novoUsuario = new Usuario(nome, email);
-        usuarios.add(novoUsuario);
+        usuarios.put(email, novoUsuario);
         return novoUsuario;
     }
 
@@ -61,7 +69,7 @@ public class TuiterLite<T> {
      * @return Um "tuíte", que será devidamente publicado no sistema
      */
     public Tuite tuitarAlgo(Usuario usuario, String texto) {
-        if(usuario.getEmail() == EMAIL_NULO){
+        if(usuario.getEmail().equals(EMAIL_NULO)){
             return null;
         }
         else if(texto.length() > TAMANHO_MAXIMO_TUITES){
@@ -128,6 +136,7 @@ public class TuiterLite<T> {
         minhaString += "2";
         minhaString += "3";
         System.out.println(minhaString);
+        
 
     }
 }
